@@ -1,25 +1,25 @@
 	.data
 titGioc:.asciiz "\n\t\t\t\t\t-------------------------------------\n\t\t\t\t\t*** I N D O V I N A   N U M E R O ***\n\t\t\t\t\t-------------------------------------\n"
-spgz:	.asciiz "Questo gioco divertente permette di sfidare i tuoi amici: vincerà chi avrà imppiegato meno tentativi per indovinare\nil numero che ho pensato! E tu sei pronto per il divertimento??\n"
+spgz:	.asciiz "Questo gioco divertente permette di sfidare i tuoi amici: vincerÃ  chi avrÃ  imppiegato meno tentativi per indovinare\nil numero che ho pensato! E tu sei pronto per il divertimento??\n"
 numGioc:.asciiz "Quanti sono i giocatori? "
 insGioc:.asciiz "Inserisci ora i nomi dei "
 Gioc:	.asciiz " giocatori:\n"
 curs:	.asciiz "> "
 toccaA: .asciiz "\n--------------------\nOra tocca a: "
-msgPns:	.asciiz "\nIo penso ad un numero da 1 a 100, e tu dovrai provare ad indovinarlo.\nTi dirò 'di più' o 'di meno' per aiutarti ad indovinare.\n"
-msgP:	.asciiz "\n\t  Di più! Ritenta!\n"
+msgPns:	.asciiz "\nIo penso ad un numero da 1 a 100, e tu dovrai provare ad indovinarlo.\nTi dirÃ² 'di piÃ¹' o 'di meno' per aiutarti ad indovinare.\n"
+msgP:	.asciiz "\n\t  Di piÃ¹! Ritenta!\n"
 msgM:	.asciiz "\n\t  Di meno! Ritenta!\n"
 msggl:	.asciiz "\n\t\t\t>> COMPLIMENTI! HAI INDOVINATO AL "
-msgglt:	.asciiz "° TENTATIVO <<\n"
-msgTntv:.asciiz "\nTentativo n° "
+msgglt:	.asciiz "Â° TENTATIVO <<\n"
+msgTntv:.asciiz "\nTentativo nÂ° "
 msgIndv:.asciiz "\nQuale numero ho pensato?\t"
-msgwnr:	.asciiz "\n----------\n\t\t\t\t\tIL VINCITORE È: "
-msgPPr:	.asciiz "\n----------\n\t\t\t\t\t CI SONO PIÙ GIOCATORI AL PRIMO POSTO!\n"
+msgwnr:	.asciiz "\n----------\n\t\t\t\t\tIL VINCITORE Ãˆ: "
+msgPPr:	.asciiz "\n----------\n\t\t\t\t\t CI SONO PIÃ™ GIOCATORI AL PRIMO POSTO!\n"
 msgPPrN:.asciiz "\tSONO ARRIVATI PRIMI:\n"
 trattSp:.asciiz "\t\t\t    - "
 msgCon:	.asciiz "\t\t\t\t  -- ha indovinato al "
 msgCon2:.asciiz "\t\t\t\t\t-- hanno indovinato al "
-msgTtvi:.asciiz "° tentativo --\n"
+msgTtvi:.asciiz "Â° tentativo --\n"
 
 	.text
 	.globl main
@@ -63,7 +63,7 @@ main:
 	li $v0 4
 	syscall
 	
-	la $a0 ($s1)	# n°
+	la $a0 ($s1)	# nÂ°
 	li $v0 1
 	syscall
 	
@@ -119,7 +119,7 @@ manchePerGiocatore:
  	bne $t3 $s1 manchePerGiocatore
  	j verificaVincitore
  	
-Manche:	#faccio numero random e implemento le possibilità tramite syscall
+Manche:	#faccio numero random e implemento le possibilitÃ  tramite syscall
 
 	li $v0 30	#
 	syscall		# genero numero random
@@ -132,12 +132,12 @@ Manche:	#faccio numero random e implemento le possibilità tramite syscall
 
 Tentativi:
 	add $t5 $t5 1	# incremento contatore	
-	la $a0, msgTntv	# "tentativo n° "
+	la $a0, msgTntv	# "tentativo nÂ° "
 	li $v0, 4
  	syscall
  	
  	la $a0 ($t5)
- 	li $v0 1	# n° del tentativo
+ 	li $v0 1	# nÂ° del tentativo
  	syscall
 	
 	la $a0, msgIndv	# "Indovina che numero ho pensato"
@@ -148,7 +148,7 @@ Tentativi:
  	syscall	
  	move $t0 $v0
  	
- 	bne $t6 $t0 alii#se il numero è indovinato, segue questa procedura!
+ 	bne $t6 $t0 alii#se il numero Ã¨ indovinato, segue questa procedura!
  	la $a0 msggl	# "Complimenti numero indovinato al "
 	li $v0 4
  	syscall
@@ -157,17 +157,17 @@ Tentativi:
 	li $v0 1
  	syscall
  	
- 	la $a0 msgglt	# "° tentativo!"
+ 	la $a0 msgglt	# "Â° tentativo!"
 	li $v0 4
  	syscall
  	
  	j proseg
  	
 alii:	bgt $t0 $t6 dimeno
- 	blt $t0 $t6 dipiù
+ 	blt $t0 $t6 dipiÃ¹
 
-dipiù:
-	la $a0, msgP	# "di più, ci sei quasi"
+dipiÃ¹:
+	la $a0, msgP	# "di piÃ¹, ci sei quasi"
 	li $v0, 4
  	syscall
 	j proseg
@@ -191,13 +191,13 @@ loop:	add $t1 $t1 8
 	
 	bgt $t4 $t2 prosegui
 	move $t2 $t4
-	la $t5 ($t1) # salva indirizzo del numero minore. Per il nome dovrò fare add $t1 $t1 -4
+	la $t5 ($t1) # salva indirizzo del numero minore. Per il nome dovrÃ² fare add $t1 $t1 -4
 
 prosegui:
 	add $t3 $t3 1
 	bne $t3 $s1 loop
 
-# controlla il vincitore ma anche se c'è stato un pareggio per il primo posto!
+# controlla il vincitore ma anche se c'Ã¨ stato un pareggio per il primo posto!
 #controlla pareggi
 	refresh	
 	add $t1 $t1 -4
@@ -210,7 +210,7 @@ loopSp:	add $t1 $t1 8		# loop controllo spareggio
 	add $t4 $t1 -4
 	sw $t4 ($sp)
 	add $t7 $t7 1	# $t7 contatore elementi inseriti in $sp
-			# è anche il FLAG che indica se ci sono stati e quanti giocatori primi
+			# Ã¨ anche il FLAG che indica se ci sono stati e quanti giocatori primi
 prosSp:	add $t3 $t3 1
 	bne $t3 $s1 loopSp
 
@@ -223,7 +223,7 @@ prosSp:	add $t3 $t3 1
 	add $t5 $t5 -4
 	lw $a0 ($t5)
 	syscall
-#ha indovinato al n° tentativo	
+#ha indovinato al nÂ° tentativo	
 	la $a0 msgCon			
 	syscall
 	
@@ -257,7 +257,7 @@ elencPr:
 	
 	add $sp $sp 4
 	bne $t3 $t7 elencPr
-#hanno indovinato al n° tentativo	
+#hanno indovinato al nÂ° tentativo	
 	la $a0 msgCon2			
 	syscall
 	
